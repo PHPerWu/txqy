@@ -2,9 +2,9 @@ function SD = MyCloud( IM,CLOUD )
 %MYCLOUD Summary of this function goes here
 %   Detailed explanation goes here
 
-row=30;
-line=30;
-p=0.22;
+row=50;
+line=50;
+p=0.3;
 
 
 
