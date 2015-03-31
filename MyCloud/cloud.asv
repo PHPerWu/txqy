@@ -4,7 +4,7 @@ function SD = MyCloud( IM,CLOUD )
 
 row=30;
 line=30;
-p=0.22;
+p=0.18;
 
 
 
@@ -44,6 +44,15 @@ end
 Am=medfilt2(M,[row,line]);
 %Am=M;
 
+%将没有云的部分还原
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==0
+		Am(i,j)=M(i,j);
+		end
+	end
+end
+
 
 %Am-M
 %Am=im2double(Am);
@@ -65,6 +74,14 @@ end
 %M=im2uint8(M);
 %中值滤波Am-M	
 median=medfilt2(temp,[row,line]);
+%将没有云的部分还原
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==0
+		median(i,j)=temp(i,j);
+		end
+	end
+end
 
 
 %计算B(x,y)
@@ -82,8 +99,42 @@ for i=1:h
 	end
 end
 
+%显示
+% subplot(row,line,1) 
+% imshow(IM);
+% title('原图'); 
+
+% subplot(row,line,2);  
+% imshow(R)
+% title('原图红色通道');  
+
+% subplot(row,line,3);  
+% imshow(G)
+% title('原图绿色通道');  
+
+% subplot(row,line,4);  
+% imshow(B)
+% title('原图蓝色通道');  
+
+% subplot(row,line,5);  
+% imshow(M);
+% title('取三通道最小值后的图像');  
+
+%imshow(rgb2gray(IM));
+%imshow(M);
+ % subplot(row,line,1) 
+ % imshow(Am);
+ % title('Am'); 
+ 
+ % subplot(row,line,2) 
+ % imshow(B);
+ % title('B'); 
+
+% subplot(row,line,3) 
+% imshow(F);
+% title('F');
 %Dark为暗通道图 
-Dark=MyDark( IM ,h, w, c);
+Dark=MyDark( IM ,h, w, c,CLOUD);
 
 %countDark为0.1%的点的个数
 countDark=floor(h*w/1000);
@@ -128,6 +179,16 @@ for i=1:h
 end
 
 resultIM=colorspace('RGB<-Luv',J);
+%用原图将没云的区域覆盖
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==0
+		resultIM=(LuvIM(i,j,1)-F(i,j))/(1-F(i,j)/A);
+		else
+		J(i,j,1)=LuvIM(i,j,1);
+		end
+	end
+end
 imshow(resultIM);
 end
 

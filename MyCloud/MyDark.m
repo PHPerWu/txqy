@@ -50,6 +50,6 @@ for i=4:h-4
 	end
 end
 
-imshow(M);
+%imshow(M);
 
 end

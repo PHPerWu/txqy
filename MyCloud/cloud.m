@@ -8,7 +8,8 @@ p=0.18;
 
 
 
-
+resu=IM;
+%imshow(resu);
 [h, w, c] = size(IM);
 
 %获取原图三通道
@@ -44,6 +45,15 @@ end
 Am=medfilt2(M,[row,line]);
 %Am=M;
 
+%将没有云的部分还原
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==0
+		Am(i,j)=M(i,j);
+		end
+	end
+end
+
 
 %Am-M
 %Am=im2double(Am);
@@ -65,6 +75,14 @@ end
 %M=im2uint8(M);
 %中值滤波Am-M	
 median=medfilt2(temp,[row,line]);
+%将没有云的部分还原
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==0
+		median(i,j)=temp(i,j);
+		end
+	end
+end
 
 
 %计算B(x,y)
@@ -162,6 +180,18 @@ for i=1:h
 end
 
 resultIM=colorspace('RGB<-Luv',J);
-imshow(resultIM);
+%用原图将没云的区域覆盖
+for i=1:h
+	for j=1:w
+		if CLOUD(i,j)==255;
+		resu(i,j,1)=resultIM(i,j,1);
+        resu(i,j,2)=resultIM(i,j,2);
+        resu(i,j,3)=resultIM(i,j,3);
+
+		end
+	end
+end
+
+imshow(resu);
 end
 
