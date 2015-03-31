@@ -13,7 +13,7 @@ I = double(imread(img_name)) / 255;
 [h,w,c] = size(I);
 win_size = 7;
 %去雾系数
-w0  = 0.95;
+w0  = 1.2;
 img_size = w * h;
 %初始化结果图像
 dehaze = zeros(h,w,c);

@@ -4,7 +4,7 @@ function SD = MyCloud( IM,CLOUD )
 
 row=30;
 line=30;
-p=0.22;
+p=0.18;
 
 
 
@@ -117,7 +117,7 @@ end
 % imshow(F);
 % title('F');
 %Dark为暗通道图 
-Dark=MyDark( IM ,h, w, c);
+Dark=MyDark( IM ,h, w, c,CLOUD);
 
 %countDark为0.1%的点的个数
 countDark=floor(h*w/1000);
